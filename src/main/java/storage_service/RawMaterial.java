@@ -70,6 +70,7 @@ public class RawMaterial{
     @Override
     public String toString() {
         return "RawMaterial{" +
+//                "changeType='" + changeType.name() + '\'' +
                 "type='" + type + '\'' +
                 ", value=" + value +
                 '}';

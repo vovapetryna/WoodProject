@@ -34,7 +34,7 @@ public class CommonTaskIO implements Cloneable{
     public void setParameters(double materialVolume,
                               double productVolume){
         this.material.setValue(materialVolume);
-        this.product.setValue(materialVolume);
+        this.product.setValue(productVolume);
     }
 
     public void changePricing(double pricePerUnit,
@@ -59,10 +59,14 @@ public class CommonTaskIO implements Cloneable{
                                                         material);
     }
 
+    public boolean sameMaterialProduct(CommonTaskIO anotherTask){
+        return (material.typeCompare(anotherTask.material) && product.typeCompare(anotherTask.product));
+    }
+
     @Override
     public String toString() {
         return "CommonTaskIO{" +
-                "material='" + material + '\'' +
+                "material='" + material.toString() + '\'' +
                 ", product='" + product.toString() + '\'' +
                 '}';
     }

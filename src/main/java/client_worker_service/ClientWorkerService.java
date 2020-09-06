@@ -77,6 +77,14 @@ public class ClientWorkerService {
         return (ClientProvider)null;
     }
 
+    public Worker geWorkerSurname(String surname){
+        for (Worker worker: workers){
+            if (worker.sameSurname(surname))
+                return worker;
+        }
+        return (Worker) null;
+    }
+
     public void addWorkerBalance(Worker worker, double wage){
         for (Worker tempWorker: workers){
             if (tempWorker == worker) {

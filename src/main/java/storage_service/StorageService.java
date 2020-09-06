@@ -60,12 +60,21 @@ public class StorageService {
     public void PushMaterials(LinkedList<RawMaterial> products){
         for (RawMaterial product: products){
             product.setChangeType(StorageChangeType.income);
+            addLog(product);
         }
     }
 
     public void GetMaterials(LinkedList<RawMaterial> materials){
         for (RawMaterial material: materials){
             material.setChangeType(StorageChangeType.outcome);
+            addLog(material);
+        }
+    }
+
+    public void printLastChanges(){
+        int changeLogSize = storageLog.size();
+        for (int i=0; i<5; i++){
+            System.out.println(storageLog.get(changeLogSize - i - 1));
         }
     }
 }

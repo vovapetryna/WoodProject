@@ -55,13 +55,15 @@ public class Worker {
         this.targetSalary = targetSalary;
     }
 
+    public boolean sameSurname(String anotherSurname){
+        return surname.equals(anotherSurname);
+    }
+
     @Override
     public String toString() {
         return "Worker{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", specialization=" + specialization +
-                ", rank=" + rank +
                 '}';
     }
 }

@@ -1,6 +1,10 @@
 package main_service;
 
 
+import client_worker_service.Worker;
+
+import java.util.LinkedList;
+
 public class App
 {
     public static void hr(){
@@ -29,6 +33,14 @@ public class App
         mainService.addDepartment("Пилорама 5");
         hr();
 
+        System.out.println("Любое предприятие имеет рабочих.\n" +
+                "Добавим рабочих при помощи сервиса учета клиентов \\ рабочих \\ поставщиков\n");
+        mainService.addWorker("Василий", "Иванов");
+        mainService.addWorker("Валерий", "Несторов");
+        mainService.addWorker("Виталий", "Носов");
+        hr();
+
+
         System.out.println("Материалы поставляются ограниченым числом поставщиков.\n" +
                 "Добавим поставщиков используя сервис учета клиентов \\ рабочих \\ поставщиков\n" +
                 "Для примера будет достаточно одного :-)\n");
@@ -43,8 +55,46 @@ public class App
                 "Пилорама 3");
         hr();
 
+        System.out.println("Предприятие имеет набор типовых изделий как из непосредственно бревна\n" +
+                "так и из уже переработанной продукции\n" +
+                "Создадим шаблоны используя сервис планировщик заданий\n");
 
+        mainService.addCommonTask("Бревно L4 26", 0.0,
+                "Шпала", 0.0,
+                150.0, 50.0);
+        mainService.addCommonTask("Бревно L2 20", 0.0,
+                "Доска L2 15", 0.0,
+                300.0, 25.0);
+        hr();
 
+        System.out.println("Основное задание любого производства - выполнение заказов." +
+                "Создадим заказ из типовых операций используя сервис планирования заданий\n");
 
+        String[][] order = {{"Бревно L4 26", "Шпала"},
+                            {"Бревно L2 20", "Доска L2 15"}};
+        double[] order_materials = {3.75, 1.25};
+        double[] order_products = {3.5, 1.1};
+
+        LinkedList<Worker> executors = new LinkedList<Worker>();
+        executors.add(mainService.getWorkerSurname("Иванов"));
+        executors.add(mainService.getWorkerSurname("Носов"));
+
+        mainService.addOrder(order,
+                            order_materials,
+                            order_products,
+                            executors);
+        hr();
+
+        System.out.println("После выполнения задания, сервис планирования автоматически начисляет зарплату рабочим\n" +
+                "добавляет товар на склад продукцииn\n" +
+                "списывает использованные материалы");
+        mainService.finalizeOrders();
+        hr();
+
+        System.out.println("Отобразим последние изменения на складе товаром \\ сырья:\n");
+        mainService.printLastChanges();
+        hr();
+
+        System.out.println("Таким образом видим обновленные записи учетного журнала склада");
     }
 }
