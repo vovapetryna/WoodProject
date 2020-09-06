@@ -1,48 +1,60 @@
 package task_service;
 
 import client_worker_service.Worker;
+import department_service.Department;
+import org.javatuples.Quartet;
+import org.javatuples.Triplet;
+import storage_service.RawMaterial;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class OrderTask implements TaskInterface{
-    Worker                  responsible;
-    LinkedList<Worker>      executors = new LinkedList<Worker>();
+public class OrderTask{
+    LinkedList<Worker>          executors = new LinkedList<Worker>();
+    LinkedList<CommonTaskIO>    tasks;
+    Department                  responsibleDepartment;
 
-    CommonTaskIO            taskTemplate;
+    double totalWage;
+    double totalPrice;
 
-    LocalDateTime           deadline;
+    public OrderTask(LinkedList<CommonTaskIO> tasks,
+                     LinkedList<Worker> executors,
+                     Department responsibleDepartment){
 
-    public OrderTask(CommonTaskIO taskTemplate,
-                     Worker responsible,
-                     LocalDateTime deadline){
-        this.taskTemplate = taskTemplate;
-        this.responsible = responsible;
-        this.deadline = deadline;
+        this.tasks = tasks;
+        this.executors = executors;
+        this.responsibleDepartment = responsibleDepartment;
     }
 
-    public void setTaskParameters(double materialVolume, double productVolume){
-        taskTemplate.setParameters(materialVolume,
-                                    productVolume);
+    public LinkedList<Worker> getExecutors(){
+        return executors;
     }
 
-    @Override
-    public void changeResponsible(Worker responsible) {
-        this.responsible = responsible;
-    }
+    public Quartet<Double, Double, LinkedList<RawMaterial>, LinkedList<RawMaterial>>
+    finalizeOrder(LinkedList<CommonTaskIO> sideTask){
+        totalPrice = 0.0;
+        totalWage = 0.0;
+        LinkedList<RawMaterial> resProducts = new LinkedList<RawMaterial>();
+        LinkedList<RawMaterial> resMaterials = new LinkedList<RawMaterial>();
 
-    @Override
-    public void addWorker(Worker worker) {
-        executors.add(worker);
-    }
+        for (CommonTaskIO task: tasks){
+            Quartet<Double, Double, RawMaterial, RawMaterial> taskRes = task.finalizeTask();
+            totalPrice += taskRes.getValue0();
+            totalWage += taskRes.getValue1();
+            resProducts.add(taskRes.getValue2());
+            resMaterials.add(taskRes.getValue3());
+        }
 
-    @Override
-    public void dellWorker(Worker worker) {
-        executors.remove(worker);
-    }
+        for (CommonTaskIO task: sideTask){
+            Quartet<Double, Double, RawMaterial, RawMaterial> taskRes = task.finalizeTask();
+            totalWage += taskRes.getValue1();
+            resProducts.add(taskRes.getValue2());
+            resMaterials.add(taskRes.getValue3());
+        }
 
-    @Override
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
+        return  new Quartet<Double, Double, LinkedList<RawMaterial>, LinkedList<RawMaterial>>
+                        (totalPrice,
+                        (Double)(totalWage / executors.size()),
+                        resProducts,
+                        resMaterials);
     }
 }

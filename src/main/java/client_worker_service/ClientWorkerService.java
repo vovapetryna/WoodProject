@@ -68,4 +68,13 @@ public class ClientWorkerService {
         providers.add(provider);
         return provider;
     }
+
+    public void addWorkerBalance(Worker worker, double wage){
+        for (Worker tempWorker: workers){
+            if (tempWorker == worker) {
+                tempWorker.addBalance(wage);
+                return;
+            }
+        }
+    }
 }

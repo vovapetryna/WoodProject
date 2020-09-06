@@ -9,6 +9,7 @@ public class Worker {
     private Specialization      specialization;
     private int                 rank;
     private double              targetSalary;
+    private double              currentBalance;
     private Department          department;
 
     Worker(String name,
@@ -23,6 +24,15 @@ public class Worker {
         this.rank = rank;
         this.targetSalary = targetSalary;
         this.department = department;
+        this.currentBalance = 0;
+    }
+
+    public void addBalance(double wage){
+        this.currentBalance += wage;
+    }
+
+    public void decreaseBalance(double wage){
+        this.currentBalance -= wage;
     }
 
     private static void validateRank(int rank){

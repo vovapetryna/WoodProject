@@ -2,6 +2,7 @@ package storage_service;
 
 import client_worker_service.ClientProvider;
 import department_service.Department;
+import jdk.internal.util.xml.impl.Pair;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -55,5 +56,17 @@ public class StorageService {
                 department,
                 dateTime);
         addLog(tempMaterial);
+    }
+
+    public void PushMaterials(LinkedList<RawMaterial> products){
+        for (RawMaterial product: products){
+            product.setChangeType(StorageChangeType.income);
+        }
+    }
+
+    public void GetMaterials(LinkedList<RawMaterial> materials){
+        for (RawMaterial material: materials){
+            material.setChangeType(StorageChangeType.outcome);
+        }
     }
 }

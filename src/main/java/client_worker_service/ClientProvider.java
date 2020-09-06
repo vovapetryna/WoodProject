@@ -1,8 +1,10 @@
 package client_worker_service;
 
+import storage_service.RawMaterial;
+
 import java.util.LinkedList;
 
-public class ClientProvider {
+public class ClientProvider{
     private String              name;
     private String              surname;
 

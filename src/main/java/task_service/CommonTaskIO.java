@@ -1,27 +1,69 @@
 package task_service;
 
-public class CommonTaskIO{
-    private String material;
-    private String product;
-    private String description;
+import org.javatuples.Quartet;
+import org.javatuples.Triplet;
+import storage_service.RawMaterial;
 
-    double materialVolume;
-    double productVolume;
+public class CommonTaskIO implements Cloneable{
+    private RawMaterial     material;
+    private RawMaterial     product;
+    private double          pricePerUnit;
+    private double          wageFundPerUnit;
 
-    public CommonTaskIO(String material,
-                         String product,
-                         double materialVolume,
-                         double productVolume){
-        this.materialVolume = materialVolume;
-        this.productVolume = productVolume;
+    boolean                 done;
 
+    public CommonTaskIO(RawMaterial material,
+                        RawMaterial product,
+                        double pricePerUnit,
+                        double wageFundPerUnit){
         this.material = material;
         this.product = product;
+        this.pricePerUnit = pricePerUnit;
+        this.wageFundPerUnit = wageFundPerUnit;
+
+        this.done = false;
+    }
+
+    private CommonTaskIO(){
+        material = null;
+        product = null;
+        pricePerUnit = 0.0;
+        wageFundPerUnit = 0.0;
     }
 
     public void setParameters(double materialVolume,
                               double productVolume){
-        this.materialVolume = materialVolume;
-        this.productVolume = productVolume;
+        this.material.setValue(materialVolume);
+        this.product.setValue(materialVolume);
+    }
+
+    public void changePricing(double pricePerUnit,
+                              double wageFund){
+        this.pricePerUnit = pricePerUnit;
+        this.wageFundPerUnit = wageFund;
+    }
+
+    public CommonTaskIO clone() {
+        CommonTaskIO temp = new CommonTaskIO();
+        temp.pricePerUnit = pricePerUnit;
+        temp.wageFundPerUnit = wageFundPerUnit;
+        temp.material = material.clone();
+        temp.product = product.clone();
+        return temp;
+    }
+
+    public Quartet<Double, Double, RawMaterial, RawMaterial> finalizeTask(){
+        return new Quartet<Double, Double, RawMaterial, RawMaterial>((Double)(product.getValue()*pricePerUnit),
+                                                        (Double)(product.getValue()*wageFundPerUnit),
+                                                        product,
+                                                        material);
+    }
+
+    @Override
+    public String toString() {
+        return "CommonTaskIO{" +
+                "material='" + material + '\'' +
+                ", product='" + product.toString() + '\'' +
+                '}';
     }
 }
