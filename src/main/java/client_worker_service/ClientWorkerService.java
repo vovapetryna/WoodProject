@@ -69,6 +69,14 @@ public class ClientWorkerService {
         return provider;
     }
 
+    public ClientProvider getProviderCompany(String companyName){
+        for (ClientProvider provider: providers){
+            if (provider.sameCompany(companyName))
+                return provider;
+        }
+        return (ClientProvider)null;
+    }
+
     public void addWorkerBalance(Worker worker, double wage){
         for (Worker tempWorker: workers){
             if (tempWorker == worker) {

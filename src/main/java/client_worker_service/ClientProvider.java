@@ -53,6 +53,10 @@ public class ClientProvider{
         this.email = email;
     }
 
+    public boolean sameCompany(String anotherCompany){
+        return companyName.equals(anotherCompany);
+    }
+
     @Override
     public String toString() {
         return "Customer{" +

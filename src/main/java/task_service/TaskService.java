@@ -16,8 +16,10 @@ public class TaskService {
     StorageService              storageServiceEndPoint;
     ClientWorkerService         workerServiceEndPoint;
 
-    public TaskService(StorageService storageService){
+    public TaskService(StorageService storageService,
+                       ClientWorkerService workerService){
         this.storageServiceEndPoint = storageService;
+        this.workerServiceEndPoint = workerService;
     }
 
     public OrderTask addOrder(LinkedList<CommonTaskIO> tasks,
