@@ -1,8 +1,6 @@
 package main_service;
 
-import client_worker_service.ClientWorkerService;
-import client_worker_service.Specialization;
-import client_worker_service.Worker;
+import client_worker_service.*;
 import department_service.Departments;
 import org.javatuples.Triplet;
 import storage_service.StorageChangeType;
@@ -33,10 +31,11 @@ public final class MainService {
                             String companyName){
         System.out.println("Добавление поставщика: " + companyName);
 
-        clientWorkerService.addProvider(name,
-                surname,
-                phoneNumber,
-                email,
+        Person newProvider = new Person(name, surname);
+        Contacts newContacts = new Contacts(phoneNumber, email);
+
+        clientWorkerService.addProvider(newProvider,
+                newContacts,
                 companyName);
     }
 
@@ -44,12 +43,8 @@ public final class MainService {
                           String surname){
         System.out.println("Добавление рабочего: " + name + " " + surname);
 
-        clientWorkerService.addWorker(name,
-                surname,
-                Specialization.sawmill,
-                5,
-                15000.0,
-                null);
+        Person newWorker = new Person(name, surname);
+        clientWorkerService.addWorker(newWorker, null);
     }
 
     public Worker getWorkerSurname(String surname){
@@ -72,17 +67,13 @@ public final class MainService {
                         clientWorkerService.getProviderCompany(providerCompany),
                         0.0,
                         item.getValue1(),
-                        departments.getDepartmentByName(departmentName),
-                        LocalDateTime.now()
-                );
+                        departments.getDepartmentByName(departmentName));
             }else{
                 storageService.GetMaterials(item.getValue2(),
                         clientWorkerService.getProviderCompany(providerCompany),
                         0.0,
                         item.getValue1(),
-                        departments.getDepartmentByName(departmentName),
-                        LocalDateTime.now()
-                );
+                        departments.getDepartmentByName(departmentName));
             }
         }
     }

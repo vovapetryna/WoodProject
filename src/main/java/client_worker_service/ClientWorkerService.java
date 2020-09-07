@@ -5,27 +5,19 @@ import department_service.Department;
 import java.util.LinkedList;
 
 public final class ClientWorkerService {
-    final private LinkedList<Worker>              workers = new LinkedList<>();
-    final private LinkedList<ClientProvider>    customers = new LinkedList<>();
-    final private LinkedList<ClientProvider>    providers = new LinkedList<>();
+    final private LinkedList<Worker>         workers = new LinkedList<>();
+    final private LinkedList<ClientProvider> customers = new LinkedList<>();
+    final private LinkedList<ClientProvider> providers = new LinkedList<>();
 
     //this variable \ method will be used in analytics service
     public void addWorker(Worker worker){
         workers.add(worker);
     }
 
-    public void addWorker(String name,
-                          String surname,
-                          Specialization specialization,
-                          int rank,
-                          double targetSalary,
+    public void addWorker(Person person,
                           Department department){
 
-        workers.add(new Worker(name,
-                surname,
-                specialization,
-                rank,
-                targetSalary,
+        workers.add(new Worker(person,
                 department));
     }
 
@@ -40,15 +32,11 @@ public final class ClientWorkerService {
     }
 
     //this variable \ method will be used in analytics service
-    public void addCustomer(String name,
-                            String surname,
-                            String phoneNumber,
-                            String email,
+    public void addCustomer(Person person,
+                            Contacts contacts,
                             String companyName){
-        customers.add(new ClientProvider(name,
-                surname,
-                phoneNumber,
-                email,
+        customers.add(new ClientProvider(person,
+                contacts,
                 companyName));
     }
 
@@ -59,16 +47,12 @@ public final class ClientWorkerService {
     }
 
     //this variable \ method will be used in analytics service
-    public void addProvider(String name,
-                            String surname,
-                            String phoneNumber,
-                            String email,
+    public void addProvider(Person person,
+                            Contacts contacts,
                             String companyName){
 
-        ClientProvider provider = new ClientProvider(name,
-                surname,
-                phoneNumber,
-                email,
+        ClientProvider provider = new ClientProvider(person,
+                contacts,
                 companyName);
 
         providers.add(provider);
@@ -79,6 +63,7 @@ public final class ClientWorkerService {
             if (provider.sameCompany(companyName))
                 return provider;
         }
+
         return null;
     }
 
@@ -87,6 +72,7 @@ public final class ClientWorkerService {
             if (worker.sameSurname(surname))
                 return worker;
         }
+
         return null;
     }
 

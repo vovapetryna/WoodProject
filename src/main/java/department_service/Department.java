@@ -1,7 +1,7 @@
 package department_service;
 
 public final class Department{
-    final private String      name;
+    final private String name;
 
     Department(String name){
         this.name = name;

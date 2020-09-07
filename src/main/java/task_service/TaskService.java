@@ -3,19 +3,16 @@ package task_service;
 import client_worker_service.ClientWorkerService;
 import client_worker_service.Worker;
 import department_service.Department;
-import org.javatuples.Quartet;
 import storage_service.RawMaterial;
 import storage_service.StorageService;
 import java.util.LinkedList;
 
 public final class TaskService {
-    final private LinkedList<OrderTask>       taskJournal = new LinkedList<>();
-    final private LinkedList<OrderTask>       taskList = new LinkedList<>();
-
-    final private LinkedList<CommonTaskIO>       templates = new LinkedList<>();
-
-    StorageService              storageServiceEndPoint;
-    ClientWorkerService         workerServiceEndPoint;
+    final private LinkedList<OrderTask>    taskJournal = new LinkedList<>();
+    final private LinkedList<OrderTask>    taskList = new LinkedList<>();
+    final private LinkedList<CommonTaskIO> templates = new LinkedList<>();
+    final private StorageService           storageServiceEndPoint;
+    final private ClientWorkerService      workerServiceEndPoint;
 
     public TaskService(StorageService storageService,
                        ClientWorkerService workerService){

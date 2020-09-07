@@ -5,11 +5,10 @@ import storage_service.RawMaterial;
 import java.util.LinkedList;
 
 public class OrderResLog {
-    public final double                     totalPrice;
-    public final double                     totalWage;
-
+    public final double                  totalPrice;
+    public final double                  totalWage;
     public final LinkedList<RawMaterial> listProducts;
-    public final LinkedList<RawMaterial>    listMaterials;
+    public final LinkedList<RawMaterial> listMaterials;
 
 
     public OrderResLog(double totalPrice,

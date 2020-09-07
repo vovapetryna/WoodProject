@@ -7,12 +7,11 @@ import storage_service.RawMaterial;
 import java.util.LinkedList;
 
 public final class OrderTask{
-    final private LinkedList<Worker>          executors;
-    final private LinkedList<CommonTaskIO>    tasks;
-    final private Department                  responsibleDepartment; //Will be used with additional analytics service
-
-    double totalWage;
-    double totalPrice;
+    final private LinkedList<Worker>       executors;
+    final private LinkedList<CommonTaskIO> tasks;
+    final private Department               responsibleDepartment; //Will be used with additional analytics service
+    double                                 totalWage;
+    double                                 totalPrice;
 
     public OrderTask(LinkedList<CommonTaskIO> tasks,
                      LinkedList<Worker> executors,
@@ -48,8 +47,10 @@ public final class OrderTask{
             resMaterials.add(taskRes.material);
         }
 
+        double wageFountPerWorker = totalWage / executors.size();
+
         return  new OrderResLog(totalPrice,
-                (totalWage / executors.size()),
+                wageFountPerWorker,
                 resProducts,
                 resMaterials);
     }

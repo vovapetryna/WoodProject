@@ -3,10 +3,10 @@ package task_service;
 import storage_service.RawMaterial;
 
 public final class TaskResLog {
-    public final double                     totalPrice;
-    public final double                     totalWage;
-    public final RawMaterial                product;
-    public final RawMaterial                material;
+    public final double      totalPrice;
+    public final double      totalWage;
+    public final RawMaterial product;
+    public final RawMaterial material;
 
     public TaskResLog(double totalPrice,
                       double totalWage,

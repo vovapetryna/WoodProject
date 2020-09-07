@@ -3,27 +3,19 @@ package client_worker_service;
 import department_service.Department;
 
 public final class Worker {
-    final private String              name;
-    final private String              surname;
+    final private Person         person;
+    private int                  rank;
+    private double               targetSalary;
+    private double               currentBalance;
+    final private Department     department;
 
-    final private Specialization      specialization;
-    private int                       rank;
-    private double                    targetSalary;
-    private double                    currentBalance;
-    final private Department          department;
-
-    Worker(String name,
-           String surname,
-           Specialization specialization,
-           int rank,
-           double targetSalary,
+    Worker(Person person,
            Department department) {
-        this.name = name;
-        this.surname = surname;
-        this.specialization = specialization;
-        this.rank = rank;
-        this.targetSalary = targetSalary;
+        this.person = person;
         this.department = department;
+
+        this.rank = 0;
+        this.targetSalary = 0.0;
         this.currentBalance = 0;
     }
 
@@ -58,14 +50,13 @@ public final class Worker {
     }
 
     public boolean sameSurname(String anotherSurname){
-        return surname.equals(anotherSurname);
+        return person.surname.equals(anotherSurname);
     }
 
     @Override
     public String toString() {
         return "Worker{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                "person='" + person + '\'' +
                 '}';
     }
 }

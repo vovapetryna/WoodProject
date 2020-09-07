@@ -1,15 +1,13 @@
 package task_service;
 
-import org.javatuples.Quartet;
 import storage_service.RawMaterial;
 
 public final class CommonTaskIO implements Cloneable{
-    private RawMaterial     material;
-    private RawMaterial     product;
-    private double          pricePerUnit;
-    private double          wageFundPerUnit;
-
-    boolean                 done;
+    private RawMaterial material;
+    private RawMaterial product;
+    private double      pricePerUnit;
+    private double      wageFundPerUnit;
+    boolean             done;
 
     public CommonTaskIO(RawMaterial material,
                         RawMaterial product,
@@ -19,13 +17,10 @@ public final class CommonTaskIO implements Cloneable{
         this.product = product;
         this.pricePerUnit = pricePerUnit;
         this.wageFundPerUnit = wageFundPerUnit;
-
         this.done = false;
     }
 
     private CommonTaskIO(){
-        material = null;
-        product = null;
         pricePerUnit = 0.0;
         wageFundPerUnit = 0.0;
     }
@@ -46,16 +41,21 @@ public final class CommonTaskIO implements Cloneable{
     //standard clone method will be implemented soon
     public CommonTaskIO clone() {
         CommonTaskIO temp = new CommonTaskIO();
+
         temp.pricePerUnit = pricePerUnit;
         temp.wageFundPerUnit = wageFundPerUnit;
         temp.material = material.clone();
         temp.product = product.clone();
+
         return temp;
     }
 
     public TaskResLog finalizeTask(){
-        return new TaskResLog((product.getValue()*pricePerUnit),
-                (product.getValue()*wageFundPerUnit),
+        double totalPrice = product.getValue()*pricePerUnit;
+        double totalWageFount = product.getValue()*wageFundPerUnit;
+
+        return new TaskResLog(totalPrice,
+                totalWageFount,
                 product,
                 material);
     }

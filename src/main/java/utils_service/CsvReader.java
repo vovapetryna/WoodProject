@@ -9,11 +9,10 @@ import org.javatuples.Triplet;
 import storage_service.StorageChangeType;
 
 public final class CsvReader {
-    private BufferedReader          br = null;
-    private String                  line;
-    final private String            cvsSplitBy;
-    private String[]                header;
-
+    private BufferedReader       br = null;
+    private String               line;
+    final private String         cvsSplitBy;
+    private String[]             header;
     private LinkedList<String[]> csvData;
 
     public CsvReader(String csvSplitBy){

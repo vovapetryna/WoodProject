@@ -6,32 +6,22 @@ import department_service.Department;
 import java.time.LocalDateTime;
 
 public final class RawMaterial{
-    private StorageChangeType   changeType;
+    private StorageChangeType changeType;
+    final private String      type;
+    private ClientProvider    provider;
+    private double            purchasePrice;
+    private double            value;
+    private Department        department;
+    private LocalDateTime     dateTime;
 
-    final private String        type;
-    private ClientProvider      provider;
-    private double              purchasePrice;
-
-    private double              value;
-
-    private Department          department;
-
-    private LocalDateTime       dateTime;
-
-    public RawMaterial(StorageChangeType changeType,
-                       String type,
+    public RawMaterial(String type,
                        ClientProvider provider,
                        double purchasePrice,
-                       double value,
-                       Department department,
-                       LocalDateTime dateTime){
-        this.changeType = changeType;
+                       double value){
         this.type = type;
         this.provider = provider;
         this.purchasePrice = purchasePrice;
         this.value = value;
-        this.department = department;
-        this.dateTime = dateTime;
     }
 
     public RawMaterial(String type,
@@ -56,21 +46,21 @@ public final class RawMaterial{
         return type.equals(anotherMaterial.type);
     }
 
+    public void setDateTime(LocalDateTime newTime){ this.dateTime = newTime; }
+
+    public void setDepartment(Department department){ this.department = department; }
+
     //standard clone method will be implemented soon
     public RawMaterial clone(){
-        return new RawMaterial(changeType,
-                type,
+        return new RawMaterial(type,
                 provider,
                 purchasePrice,
-                value,
-                department,
-                dateTime);
+                value);
     }
 
     @Override
     public String toString() {
         return "RawMaterial{" +
-//                "changeType='" + changeType.name() + '\'' +
                 "type='" + type + '\'' +
                 ", value=" + value +
                 '}';

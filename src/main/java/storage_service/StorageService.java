@@ -7,14 +7,15 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 public final class StorageService {
-    final private LinkedList<RawMaterial>         storageLog = new LinkedList<>();
-    final private LinkedList<RawMaterial>         uniqueMaterials = new LinkedList<>();
+    final private LinkedList<RawMaterial> storageLog = new LinkedList<>();
+    final private LinkedList<RawMaterial> uniqueMaterials = new LinkedList<>();
 
     private void addIfNotExist(RawMaterial newMaterial){
         for (RawMaterial material : uniqueMaterials){
             if (newMaterial.typeCompare(material))
                 return;
         }
+
         uniqueMaterials.add(newMaterial);
     }
 
@@ -27,16 +28,17 @@ public final class StorageService {
                               ClientProvider provider,
                               double purchasePrice,
                               double value,
-                              Department department,
-                              LocalDateTime dateTime){
+                              Department department){
 
-        RawMaterial tempMaterial = new RawMaterial(StorageChangeType.income,
-                type,
+        RawMaterial tempMaterial = new RawMaterial(type,
                 provider,
                 purchasePrice,
-                value,
-                department,
-                dateTime);
+                value);
+
+        tempMaterial.setChangeType(StorageChangeType.income);
+        tempMaterial.setDateTime(LocalDateTime.now());
+        tempMaterial.setDepartment(department);
+
         addLog(tempMaterial);
     }
 
@@ -44,16 +46,17 @@ public final class StorageService {
                              ClientProvider provider,
                              double purchasePrice,
                              double value,
-                             Department department,
-                             LocalDateTime dateTime){
+                             Department department){
 
-        RawMaterial tempMaterial = new RawMaterial(StorageChangeType.outcome,
-                type,
+        RawMaterial tempMaterial = new RawMaterial(type,
                 provider,
                 purchasePrice,
-                value,
-                department,
-                dateTime);
+                value);
+
+        tempMaterial.setChangeType(StorageChangeType.outcome);
+        tempMaterial.setDateTime(LocalDateTime.now());
+        tempMaterial.setDepartment(department);
+
         addLog(tempMaterial);
     }
 
@@ -73,6 +76,7 @@ public final class StorageService {
 
     public void printLastChanges(){
         int changeLogSize = storageLog.size();
+
         for (int i=0; i<5; i++){
             System.out.println(storageLog.get(changeLogSize - i - 1));
         }
