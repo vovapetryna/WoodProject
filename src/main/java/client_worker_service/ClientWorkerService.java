@@ -4,11 +4,12 @@ import department_service.Department;
 
 import java.util.LinkedList;
 
-public class ClientWorkerService {
-    private LinkedList<Worker>              workers = new LinkedList<Worker>();
-    private LinkedList<ClientProvider>    customers = new LinkedList<ClientProvider>();
-    private LinkedList<ClientProvider>    providers = new LinkedList<ClientProvider>();
+public final class ClientWorkerService {
+    final private LinkedList<Worker>              workers = new LinkedList<>();
+    final private LinkedList<ClientProvider>    customers = new LinkedList<>();
+    final private LinkedList<ClientProvider>    providers = new LinkedList<>();
 
+    //this variable \ method will be used in analytics service
     public void addWorker(Worker worker){
         workers.add(worker);
     }
@@ -28,14 +29,17 @@ public class ClientWorkerService {
                 department));
     }
 
+    //this variable \ method will be used in analytics service
     public boolean deleteWorker(Worker worker){
         return workers.remove(worker);
     }
 
+    //this variable \ method will be used in analytics service
     public void addCustomer(ClientProvider customer){
         customers.add(customer);
     }
 
+    //this variable \ method will be used in analytics service
     public void addCustomer(String name,
                             String surname,
                             String phoneNumber,
@@ -48,12 +52,14 @@ public class ClientWorkerService {
                 companyName));
     }
 
+    //this variable \ method will be used in analytics service
     public ClientProvider addProvider(ClientProvider provider){
         providers.add(provider);
         return provider;
     }
 
-    public ClientProvider addProvider(String name,
+    //this variable \ method will be used in analytics service
+    public void addProvider(String name,
                             String surname,
                             String phoneNumber,
                             String email,
@@ -66,7 +72,6 @@ public class ClientWorkerService {
                 companyName);
 
         providers.add(provider);
-        return provider;
     }
 
     public ClientProvider getProviderCompany(String companyName){
@@ -74,7 +79,7 @@ public class ClientWorkerService {
             if (provider.sameCompany(companyName))
                 return provider;
         }
-        return (ClientProvider)null;
+        return null;
     }
 
     public Worker geWorkerSurname(String surname){
@@ -82,7 +87,7 @@ public class ClientWorkerService {
             if (worker.sameSurname(surname))
                 return worker;
         }
-        return (Worker) null;
+        return null;
     }
 
     public void addWorkerBalance(Worker worker, double wage){

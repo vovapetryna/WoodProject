@@ -2,14 +2,13 @@ package storage_service;
 
 import client_worker_service.ClientProvider;
 import department_service.Department;
-import task_service.CommonTaskIO;
 
 import java.time.LocalDateTime;
 
-public class RawMaterial{
+public final class RawMaterial{
     private StorageChangeType   changeType;
 
-    private String              type;
+    final private String        type;
     private ClientProvider      provider;
     private double              purchasePrice;
 
@@ -20,12 +19,12 @@ public class RawMaterial{
     private LocalDateTime       dateTime;
 
     public RawMaterial(StorageChangeType changeType,
-                String type,
-                ClientProvider provider,
-                double purchasePrice,
-                double value,
-                Department department,
-                LocalDateTime dateTime){
+                       String type,
+                       ClientProvider provider,
+                       double purchasePrice,
+                       double value,
+                       Department department,
+                       LocalDateTime dateTime){
         this.changeType = changeType;
         this.type = type;
         this.provider = provider;
@@ -57,14 +56,15 @@ public class RawMaterial{
         return type.equals(anotherMaterial.type);
     }
 
+    //standard clone method will be implemented soon
     public RawMaterial clone(){
         return new RawMaterial(changeType,
-                                type,
-                                provider,
-                                purchasePrice,
-                                value,
-                                department,
-                                dateTime);
+                type,
+                provider,
+                purchasePrice,
+                value,
+                department,
+                dateTime);
     }
 
     @Override

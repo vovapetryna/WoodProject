@@ -2,16 +2,14 @@ package task_service;
 
 import client_worker_service.Worker;
 import department_service.Department;
-import org.javatuples.Quartet;
-import org.javatuples.Triplet;
 import storage_service.RawMaterial;
 
 import java.util.LinkedList;
 
-public class OrderTask{
-    LinkedList<Worker>          executors = new LinkedList<Worker>();
-    LinkedList<CommonTaskIO>    tasks;
-    Department                  responsibleDepartment;
+public final class OrderTask{
+    final private LinkedList<Worker>          executors;
+    final private LinkedList<CommonTaskIO>    tasks;
+    final private Department                  responsibleDepartment; //Will be used with additional analytics service
 
     double totalWage;
     double totalPrice;
@@ -29,32 +27,30 @@ public class OrderTask{
         return executors;
     }
 
-    public Quartet<Double, Double, LinkedList<RawMaterial>, LinkedList<RawMaterial>>
-    finalizeOrder(LinkedList<CommonTaskIO> sideTask){
+    public OrderResLog finalizeOrder(LinkedList<CommonTaskIO> sideTask){
         totalPrice = 0.0;
         totalWage = 0.0;
-        LinkedList<RawMaterial> resProducts = new LinkedList<RawMaterial>();
-        LinkedList<RawMaterial> resMaterials = new LinkedList<RawMaterial>();
+        LinkedList<RawMaterial> resProducts = new LinkedList<>();
+        LinkedList<RawMaterial> resMaterials = new LinkedList<>();
 
         for (CommonTaskIO task: tasks){
-            Quartet<Double, Double, RawMaterial, RawMaterial> taskRes = task.finalizeTask();
-            totalPrice += taskRes.getValue0();
-            totalWage += taskRes.getValue1();
-            resProducts.add(taskRes.getValue2());
-            resMaterials.add(taskRes.getValue3());
+            TaskResLog taskRes = task.finalizeTask();
+            totalPrice += taskRes.totalPrice;
+            totalWage += taskRes.totalWage;
+            resProducts.add(taskRes.product);
+            resMaterials.add(taskRes.material);
         }
 
         for (CommonTaskIO task: sideTask){
-            Quartet<Double, Double, RawMaterial, RawMaterial> taskRes = task.finalizeTask();
-            totalWage += taskRes.getValue1();
-            resProducts.add(taskRes.getValue2());
-            resMaterials.add(taskRes.getValue3());
+            TaskResLog taskRes = task.finalizeTask();
+            totalWage += taskRes.totalWage;
+            resProducts.add(taskRes.product);
+            resMaterials.add(taskRes.material);
         }
 
-        return  new Quartet<Double, Double, LinkedList<RawMaterial>, LinkedList<RawMaterial>>
-                        (totalPrice,
-                        (Double)(totalWage / executors.size()),
-                        resProducts,
-                        resMaterials);
+        return  new OrderResLog(totalPrice,
+                (totalWage / executors.size()),
+                resProducts,
+                resMaterials);
     }
 }

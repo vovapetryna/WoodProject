@@ -8,22 +8,22 @@ import java.util.LinkedList;
 import org.javatuples.Triplet;
 import storage_service.StorageChangeType;
 
-public class CSVReader {
-    BufferedReader          br = null;
-    String                  line = "";
-    String                  cvsSplitBy = ",";
-    String[]                header;
+public final class CsvReader {
+    private BufferedReader          br = null;
+    private String                  line;
+    final private String            cvsSplitBy;
+    private String[]                header;
 
-    LinkedList<String[]> csvData;
+    private LinkedList<String[]> csvData;
 
-    public CSVReader(String csvSplitBy){
+    public CsvReader(String csvSplitBy){
         this.line = "";
         this.cvsSplitBy = csvSplitBy;
     }
 
     private void readData(String csvFile){
         boolean isHeader = true;
-        csvData = new LinkedList<String[]>();
+        csvData = new LinkedList<>();
 
         try {
             br = new BufferedReader(new FileReader(csvFile));
@@ -54,10 +54,10 @@ public class CSVReader {
     getListView(String csvFile){
         readData(csvFile);
 
-        LinkedList<String> itemList = new LinkedList<String>();
+        LinkedList<String> itemList = new LinkedList<>();
 
         LinkedList<Triplet<StorageChangeType, Double, String>> changeLog =
-                new LinkedList<Triplet<StorageChangeType, Double, String>>();
+                new LinkedList<>();
 
         for (String word: header)
             if (!word.equals(""))
@@ -67,13 +67,13 @@ public class CSVReader {
             for (int i=0; i<line.length; i++){
                 if (!line[i].equals("")){
                     if (i % 2 == 0){
-                        changeLog.add(new Triplet<StorageChangeType, Double, String>(
+                        changeLog.add(new Triplet<>(
                                 StorageChangeType.income,
                                 Double.parseDouble(line[i]),
                                 itemList.get(i / 2)
                         ));
                     }else{
-                        changeLog.add(new Triplet<StorageChangeType, Double, String>(
+                        changeLog.add(new Triplet<>(
                                 StorageChangeType.outcome,
                                 Double.parseDouble(line[i]),
                                 itemList.get(i / 2)

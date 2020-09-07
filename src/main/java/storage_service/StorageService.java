@@ -6,9 +6,9 @@ import department_service.Department;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class StorageService {
-    private LinkedList<RawMaterial>         storageLog = new LinkedList<RawMaterial>();
-    private LinkedList<RawMaterial>         uniqueMaterials = new LinkedList<RawMaterial>();
+public final class StorageService {
+    final private LinkedList<RawMaterial>         storageLog = new LinkedList<>();
+    final private LinkedList<RawMaterial>         uniqueMaterials = new LinkedList<>();
 
     private void addIfNotExist(RawMaterial newMaterial){
         for (RawMaterial material : uniqueMaterials){

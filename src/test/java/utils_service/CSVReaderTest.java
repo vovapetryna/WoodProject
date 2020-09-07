@@ -5,11 +5,10 @@ import org.javatuples.Triplet;
 import org.junit.Test;
 import storage_service.StorageChangeType;
 
-import java.lang.reflect.Method;
 import java.util.LinkedList;
 
 public class CSVReaderTest extends TestCase {
-    CSVReader reader = new CSVReader(",");
+    CsvReader reader = new CsvReader(",");
 
     @Test
     public void testConvertCsvDataToActionList(){

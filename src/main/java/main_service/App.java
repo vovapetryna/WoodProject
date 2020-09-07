@@ -5,7 +5,7 @@ import client_worker_service.Worker;
 
 import java.util.LinkedList;
 
-public class App
+public final class App
 {
     public static void hr(){
         System.out.println("-----------------------------------------------------------------------------------");
@@ -14,7 +14,7 @@ public class App
     public static void main( String[] args ) {
         System.out.println(
                 "История начинаться с необходимости автоматизировать и максимально расширить учет производства.\n" +
-                "Окружение проблемы состоит из множества цехов, а именно цехов-пилорам.\n" +
+                        "Окружение проблемы состоит из множества цехов, а именно цехов-пилорам.\n" +
                         "Система состоит из 3-ох основных сервисов: \n" +
                         "\t- сервис учета рабочих \\ заказчиков \\ поставщиков\n" +
                         "\t- сервис контроля склада продукции и материалов\n" +
@@ -71,18 +71,18 @@ public class App
                 "Создадим заказ из типовых операций используя сервис планирования заданий\n");
 
         String[][] order = {{"Бревно L4 26", "Шпала"},
-                            {"Бревно L2 20", "Доска L2 15"}};
+                {"Бревно L2 20", "Доска L2 15"}};
         double[] order_materials = {3.75, 1.25};
         double[] order_products = {3.5, 1.1};
 
-        LinkedList<Worker> executors = new LinkedList<Worker>();
+        LinkedList<Worker> executors = new LinkedList<>();
         executors.add(mainService.getWorkerSurname("Иванов"));
         executors.add(mainService.getWorkerSurname("Носов"));
 
         mainService.addOrder(order,
-                            order_materials,
-                            order_products,
-                            executors);
+                order_materials,
+                order_products,
+                executors);
         hr();
 
         System.out.println("После выполнения задания, сервис планирования автоматически начисляет зарплату рабочим\n" +

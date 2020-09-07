@@ -3,29 +3,23 @@ package main_service;
 import client_worker_service.ClientWorkerService;
 import client_worker_service.Specialization;
 import client_worker_service.Worker;
-import department_service.Department;
 import department_service.Departments;
 import org.javatuples.Triplet;
 import storage_service.StorageChangeType;
 import storage_service.StorageService;
 import task_service.CommonTaskIO;
-import task_service.OrderTask;
 import task_service.TaskService;
-import utils_service.CSVReader;
+import utils_service.CsvReader;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class MainService {
-    private Departments departments =                   new Departments();
-    private StorageService storageService =             new StorageService();
-    private ClientWorkerService clientWorkerService =   new ClientWorkerService();
-    private TaskService taskService =                   new TaskService(storageService,
-                                                                clientWorkerService);
-
-    private String csvFile = "src/data/StorageServiceTestValuse.csv";
-
-
+public final class MainService {
+    final private Departments departments =                   new Departments();
+    final private StorageService storageService =             new StorageService();
+    final private ClientWorkerService clientWorkerService =   new ClientWorkerService();
+    final private TaskService taskService =                   new TaskService(storageService,
+            clientWorkerService);
 
     public void addDepartment(String name){
         System.out.println("Доавление цеха под названием: " + name);
@@ -47,7 +41,7 @@ public class MainService {
     }
 
     public void addWorker(String name,
-                            String surname){
+                          String surname){
         System.out.println("Добавление рабочего: " + name + " " + surname);
 
         clientWorkerService.addWorker(name,
@@ -55,7 +49,7 @@ public class MainService {
                 Specialization.sawmill,
                 5,
                 15000.0,
-                (Department)null);
+                null);
     }
 
     public Worker getWorkerSurname(String surname){
@@ -66,8 +60,9 @@ public class MainService {
                                       String departmentName){
         System.out.println("Записываем последние изменения по: " + departmentName + " связанные с :" + providerCompany);
 
-        CSVReader reader = new CSVReader(",");
+        CsvReader reader = new CsvReader(",");
 
+        String csvFile = "src/data/StorageServiceTestValuse.csv";
         LinkedList<Triplet<StorageChangeType, Double, String>> incomeOutcomeJournal =
                 reader.getListView(csvFile);
 
@@ -113,7 +108,7 @@ public class MainService {
                          double[] valueMaterial,
                          double[] valueProduct,
                          LinkedList<Worker> executors){
-        LinkedList<CommonTaskIO> tasks = new LinkedList<CommonTaskIO>();
+        LinkedList<CommonTaskIO> tasks = new LinkedList<>();
 
         for (int i=0; i<orderMap.length; i++){
             CommonTaskIO tempTask = taskService.getCommonTask(orderMap[i][0], orderMap[i][1]).clone();
@@ -132,7 +127,7 @@ public class MainService {
 
         taskService.addOrder(tasks,
                 executors,
-                (Department)null);
+                null);
     }
 
     public void finalizeOrders(){

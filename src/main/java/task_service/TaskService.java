@@ -1,22 +1,18 @@
 package task_service;
 
-import client_worker_service.ClientProvider;
 import client_worker_service.ClientWorkerService;
 import client_worker_service.Worker;
 import department_service.Department;
 import org.javatuples.Quartet;
 import storage_service.RawMaterial;
-import storage_service.StorageChangeType;
 import storage_service.StorageService;
-
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class TaskService {
-    LinkedList<OrderTask>       taskJournal = new LinkedList<OrderTask>();
-    LinkedList<OrderTask>       taskList = new LinkedList<OrderTask>();
+public final class TaskService {
+    final private LinkedList<OrderTask>       taskJournal = new LinkedList<>();
+    final private LinkedList<OrderTask>       taskList = new LinkedList<>();
 
-    LinkedList<CommonTaskIO>       templates = new LinkedList<CommonTaskIO>();
+    final private LinkedList<CommonTaskIO>       templates = new LinkedList<>();
 
     StorageService              storageServiceEndPoint;
     ClientWorkerService         workerServiceEndPoint;
@@ -27,66 +23,61 @@ public class TaskService {
         this.workerServiceEndPoint = workerService;
     }
 
-    public OrderTask addOrder(LinkedList<CommonTaskIO> tasks,
+    public void addOrder(LinkedList<CommonTaskIO> tasks,
                          LinkedList<Worker> executors,
                          Department responsibleDepartment){
 
         OrderTask tempOrder = new OrderTask(tasks,
-                                            executors,
-                                            responsibleDepartment);
+                executors,
+                responsibleDepartment);
 
         taskList.add(tempOrder);
         taskJournal.add(tempOrder);
-
-        return tempOrder;
     }
 
     public void finalizeOrders(){
         for (OrderTask order: taskList){
-            finalizeOrder(order, new LinkedList<CommonTaskIO>());
+            finalizeOrder(order, new LinkedList<>());
         }
     }
 
     public void finalizeOrder(OrderTask finalizedOrder,
                               LinkedList<CommonTaskIO> sideTasks){
 
-        Quartet<Double, Double, LinkedList<RawMaterial>, LinkedList<RawMaterial>> orderRes =
-                finalizedOrder.finalizeOrder(sideTasks);
+        OrderResLog orderRes = finalizedOrder.finalizeOrder(sideTasks);
 
         for (Worker worker: finalizedOrder.getExecutors()){
-            workerServiceEndPoint.addWorkerBalance(worker, orderRes.getValue1());
+            workerServiceEndPoint.addWorkerBalance(worker, orderRes.totalWage);
         }
 
-        storageServiceEndPoint.PushMaterials(orderRes.getValue2());
-        storageServiceEndPoint.GetMaterials(orderRes.getValue3());
+        storageServiceEndPoint.PushMaterials(orderRes.listProducts);
+        storageServiceEndPoint.GetMaterials(orderRes.listMaterials);
 
         taskList.remove(finalizedOrder);
     }
 
     public CommonTaskIO createCommonTask(String materialType,
-                                      double materialValue,
-                                      String productType,
-                                      double productValue,
-                                      double pricePerUnit,
-                                      double wageFundPerUnit
-                                      ){
+                                         double materialValue,
+                                         String productType,
+                                         double productValue,
+                                         double pricePerUnit,
+                                         double wageFundPerUnit
+    ){
         RawMaterial material = new RawMaterial(materialType, materialValue);
         RawMaterial product = new RawMaterial(productType, productValue);
 
-        CommonTaskIO tempTask = new CommonTaskIO(material,
+        return new CommonTaskIO(material,
                 product,
                 pricePerUnit,
                 wageFundPerUnit);
-
-        return tempTask;
     }
 
     public void addCommonTask(String materialType,
-                         double materialValue,
-                         String productType,
-                         double productValue,
-                         double pricePerUnit,
-                         double wageFundPerUnit){
+                              double materialValue,
+                              String productType,
+                              double productValue,
+                              double pricePerUnit,
+                              double wageFundPerUnit){
 
         templates.add(createCommonTask(materialType,
                 materialValue,
@@ -100,17 +91,17 @@ public class TaskService {
                                       String productType){
 
         CommonTaskIO tempTask = createCommonTask(materialType,
-                                                0.0,
-                                                productType,
-                                                0.0,
-                                                0.0,
-                                                0.0);
+                0.0,
+                productType,
+                0.0,
+                0.0,
+                0.0);
 
         for (CommonTaskIO task: templates){
             if (task.sameMaterialProduct(tempTask))
                 return task;
         }
 
-        return (CommonTaskIO)null;
+        return null;
     }
 }

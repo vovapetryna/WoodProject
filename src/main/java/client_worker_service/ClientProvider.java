@@ -1,22 +1,19 @@
 package client_worker_service;
 
-import storage_service.RawMaterial;
 
-import java.util.LinkedList;
+public final class ClientProvider{
+    final private String              name;
+    final private String              surname;
 
-public class ClientProvider{
-    private String              name;
-    private String              surname;
-
-    private String              phoneNumber;
-    private String              email;
-    private String              companyName;
+    private String                    phoneNumber;
+    private String                    email;
+    final private String              companyName;
 
     ClientProvider(String name,
-                     String surname,
-                     String phoneNumber,
-                     String email,
-                     String companyName) {
+                   String surname,
+                   String phoneNumber,
+                   String email,
+                   String companyName) {
         this.name = name;
         this.surname = surname;
 
@@ -43,11 +40,13 @@ public class ClientProvider{
                     "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]: " + email);
     }
 
+    //this variable \ method will be used in analytics service
     public void changePhoneNumber(String phoneNumber){
         validatePhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
     }
 
+    //this variable \ method will be used in analytics service
     public void changeEmail(String email){
         validateEmail(email);
         this.email = email;

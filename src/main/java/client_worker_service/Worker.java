@@ -2,15 +2,15 @@ package client_worker_service;
 
 import department_service.Department;
 
-public class Worker {
-    private String              name;
-    private String              surname;
+public final class Worker {
+    final private String              name;
+    final private String              surname;
 
-    private Specialization      specialization;
-    private int                 rank;
-    private double              targetSalary;
-    private double              currentBalance;
-    private Department          department;
+    final private Specialization      specialization;
+    private int                       rank;
+    private double                    targetSalary;
+    private double                    currentBalance;
+    final private Department          department;
 
     Worker(String name,
            String surname,
@@ -31,6 +31,7 @@ public class Worker {
         this.currentBalance += wage;
     }
 
+    //this variable \ method will be used in analytics service
     public void decreaseBalance(double wage){
         this.currentBalance -= wage;
     }
@@ -45,6 +46,7 @@ public class Worker {
             throw new IllegalArgumentException("Invalid targetSalary (must be positive)");
     }
 
+    //this variable \ method will be used in analytics service
     public void setRank(int rank){
         validateRank(rank);
         this.rank = rank;

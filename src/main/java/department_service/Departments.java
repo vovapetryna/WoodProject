@@ -2,8 +2,8 @@ package department_service;
 
 import java.util.LinkedList;
 
-public class Departments {
-    private LinkedList<Department>          departments = new LinkedList<Department>();
+public final class Departments {
+    final private LinkedList<Department>          departments = new LinkedList<>();
 
     public Department addDepartment(String name){
         for (Department department: departments){
